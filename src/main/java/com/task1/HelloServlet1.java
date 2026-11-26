@@ -15,10 +15,13 @@ import java.nio.charset.StandardCharsets;
 @WebServlet("/hello1")
 public class HelloServlet1 implements Servlet {
 
+    private static final String GET_METHOD = "GET";
+    private static final String DEFAULT_NAME = "Guest";
+
     private ServletConfig config;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         this.config = config;
     }
 
@@ -28,12 +31,12 @@ public class HelloServlet1 implements Servlet {
     }
 
     @Override
-    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+    public void service(ServletRequest request, ServletResponse response) throws IOException {
         var httpRequest = (HttpServletRequest) request;
         var httpResponse = (HttpServletResponse) response;
 
-        if (!"GET".equals(httpRequest.getMethod())) {
-            httpResponse.setHeader("Allow", "GET");
+        if (!GET_METHOD.equals(httpRequest.getMethod())) {
+            httpResponse.setHeader("Allow", GET_METHOD);
             httpResponse.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
             return;
         }
@@ -41,7 +44,7 @@ public class HelloServlet1 implements Servlet {
         request.setCharacterEncoding(StandardCharsets.UTF_8.name());
         var name = request.getParameter("name");
         if (name == null || name.isEmpty()) {
-            name = "Guest";
+            name = DEFAULT_NAME;
         }
 
         response.setContentType("text/plain");
@@ -56,6 +59,5 @@ public class HelloServlet1 implements Servlet {
 
     @Override
     public void destroy() {
-        // No resources to release.
     }
 }
