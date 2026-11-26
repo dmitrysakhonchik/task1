@@ -40,7 +40,7 @@ public class HelloServlet1 implements Servlet {
 
         request.setCharacterEncoding(StandardCharsets.UTF_8.name());
         var name = request.getParameter("name");
-        if (name == null || name.isBlank()) {
+        if (name == null || name.isEmpty()) {
             name = "Guest";
         }
 

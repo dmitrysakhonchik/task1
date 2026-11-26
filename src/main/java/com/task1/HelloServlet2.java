@@ -15,7 +15,7 @@ public class HelloServlet2 extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding(StandardCharsets.UTF_8.name());
         var name = request.getParameter("name");
-        if (name == null || name.isBlank()) {
+        if (name == null || name.isEmpty()) {
             name = "Guest";
         }
 
